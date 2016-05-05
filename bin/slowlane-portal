@@ -6,6 +6,7 @@ require_relative '../lib/slowlane/portal/team.rb'
 require_relative '../lib/slowlane/portal/app.rb'
 require_relative '../lib/slowlane/portal/profile.rb'
 require_relative '../lib/slowlane/portal/device.rb'
+require_relative '../lib/slowlane/portal/psn.rb'
 
 class SlowlanePortal < Thor
 
@@ -27,6 +28,9 @@ class SlowlanePortal < Thor
 
   desc "team SUBCOMMAND ...ARGS", "manage teams"
   subcommand "team", Slowlane::Portal::Team
+
+  desc "psn SUBCOMMAND ...ARGS", "manage teams"
+  subcommand "psn", Slowlane::Portal::Psn
 end
 
 SlowlanePortal.start(ARGV)
