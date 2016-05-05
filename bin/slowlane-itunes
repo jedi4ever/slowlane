@@ -4,6 +4,7 @@ require 'rubygems'
 require "thor"
 require_relative '../lib/slowlane/itunes/app.rb'
 require_relative '../lib/slowlane/itunes/team.rb'
+require_relative '../lib/slowlane/itunes/build.rb'
 
 class SlowlaneItunes < Thor
 
@@ -16,6 +17,10 @@ class SlowlaneItunes < Thor
 
   desc "team SUBCOMMAND ...ARGS", "manage teams"
   subcommand "team", Slowlane::Itunes::Team
+
+  desc "build SUBCOMMAND ...ARGS", "manage builds"
+  subcommand "build", Slowlane::Itunes::Build
+
 
 end
 

@@ -2,3 +2,4 @@ trial/
 *.env
 .ruby-*
 Gemfile.lock
+pkg/*
