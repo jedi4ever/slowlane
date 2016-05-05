@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "thor"
+require_relative '../lib/slowlane/portal/team.rb'
+require_relative '../lib/slowlane/portal/app.rb'
+require_relative '../lib/slowlane/portal/profile.rb'
+require_relative '../lib/slowlane/portal/device.rb'
+
+class SlowlanePortal < Thor
+
+  class_option :username , :default => '<username>' , :required => true, :desc => 'username [SLOWLANE_USERNAME]'
+  class_option :password , :default => '<password>' , :required => true, :desc => 'password [SLOWLANE_PASSWORD]'
+  class_option :team , :default => '<team>' , :required => false, :desc => 'team [SLOWLANE_TEAM]'
+
+  desc "profile SUBCOMMAND ...ARGS", "manage provisioning profiles"
+  option :filter ,:desc => 'pattern to filter'
+  subcommand "profile", Slowlane::Portal::Profile
+
+  desc "device SUBCOMMAND ...ARGS", "manage devices"
+  option :filter ,:desc => 'pattern to filter'
+  subcommand "device", Slowlane::Portal::Device
+
+  desc "app SUBCOMMAND ...ARGS", "manage apps"
+  option :filter ,:desc => 'pattern to filter'
+  subcommand "app", Slowlane::Portal::App
+
+  desc "team SUBCOMMAND ...ARGS", "manage teams"
+  subcommand "team", Slowlane::Portal::Team
+end
+
+SlowlanePortal.start(ARGV)
