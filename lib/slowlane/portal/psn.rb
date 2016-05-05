@@ -22,6 +22,22 @@ module Slowlane
 
         end
       end
+
+      desc "create", "create push keypairs"
+      def create()
+
+        keypair=Spaceship::Portal.certificate.create_certificate_signing_request()
+        require 'pp'
+        puts keypair[0].to_text()
+        #puts keypair[0].to_der()
+        puts keypair[0].to_pem()
+        puts keypair[1].to_text()
+
+        #csr, pkey = Spaceship::Portal::Certificate.create_certificate_signing_request
+        #certificate = Spaceship::Portal::Certificate::ProductionPush.create!(csr: csr, bundle_id: 'net.sunapps.151')
+      end
+
     end
+
   end
 end

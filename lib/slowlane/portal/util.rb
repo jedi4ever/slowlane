@@ -31,8 +31,8 @@ class Utils
 
   def self.team(options)
 
-    if ENV['SLOWLANE_TEAM']
-      team=ENV['SLOWLANE_TEAM']
+    if ENV['SLOWLANE_PORTAL_TEAM']
+      team=ENV['SLOWLANE_PORTAL_TEAM']
     else
       if options[:team] == '<team>'
         puts "team is required"

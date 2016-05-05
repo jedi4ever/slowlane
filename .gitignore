@@ -3,3 +3,4 @@ trial/
 .ruby-*
 Gemfile.lock
 pkg/*
+*.itmsp
