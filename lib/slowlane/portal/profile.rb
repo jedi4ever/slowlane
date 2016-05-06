@@ -1,5 +1,6 @@
 require_relative './util.rb'
 require "spaceship"
+require 'terminal-table'
 
 
 module Slowlane
@@ -21,16 +22,27 @@ module Slowlane
         t=Utils.team(options)
         Spaceship::Portal.client.team_id=t
 
+        rows = []
+        headings = [ 'uuid', 'id', 'distribution_method', 'name' ]
         Spaceship::Portal.provisioning_profile.all.find_all do |profile|
+          row = []
+          row << profile.uuid
+          row << profile.id
+          row << profile.distribution_method
+          row << profile.name
           unless options[:filter].nil?
             if profile.name =~ /#{options[:filter]}/
-              puts "#{profile.uuid}|#{profile.id}|#{profile.distribution_method}|#{profile.name}"
+              rows << row
             end
           else
-            puts "#{profile.uuid}|#{profile.id}|#{profile.distribution_method}|#{profile.name}"
+            rows << row
           end
 
         end
+
+        table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
+
       end
     end
   end

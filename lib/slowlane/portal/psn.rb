@@ -1,5 +1,6 @@
 require_relative './util.rb'
 require "spaceship"
+require 'terminal-table'
 
 
 module Slowlane
@@ -15,12 +16,30 @@ module Slowlane
         t=Utils.team(options)
         Spaceship::Portal.client.team_id=t
 
+        rows = []
+        headings=%w(name status created expires owner_type owner_name owner_id type_display_id can_download type)
         Spaceship::Portal.certificate.all.find_all do |psn|
-          require 'pp'
-          puts psn.kind_of? Spaceship::Portal::Certificate::ProductionPush
-          pp psn unless !psn.is_push?
-
+          row = []
+          row << psn.name
+          row << psn.status
+          row << psn.created
+          row << psn.expires
+          row << psn.owner_type
+          row << psn.owner_name
+          row << psn.owner_id
+          row << psn.type_display_id
+          row << psn.can_download
+          rows << row unless !psn.is_push?
+          if psn.kind_of? Spaceship::Portal::Certificate::ProductionPush
+            row << 'production'
+          else
+            row << 'development'
+          end
         end
+
+         table = Terminal::Table.new :headings => headings,  :rows => rows
+         puts table
+
       end
 
       desc "create", "create push keypairs"
