@@ -1,4 +1,5 @@
 require_relative './util.rb'
+require 'terminal-table'
 require "spaceship"
 
 module Slowlane
@@ -15,17 +16,21 @@ module Slowlane
         t=Utils.team(options)
         Spaceship::Portal.client.team_id=t
 
+        headings = ['appId', 'platform', 'prefix', 'wildcard', 'bundle_id', 'name']
+        rows = []
         Spaceship::Portal.app.all.find_all do |app|
-          require 'pp'
-          detail=[]
-          detail << app.app_id
-          detail << app.platform
-          detail << app.prefix
-          detail << app.is_wildcard
-          detail << app.bundle_id
-          detail << app.name
-          puts detail.join("|")
+          row=[]
+          row << app.app_id
+          row << app.platform
+          row << app.prefix
+          row << app.is_wildcard
+          row << app.bundle_id
+          row << app.name
+          rows << row
         end
+
+        table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
 
 
       end

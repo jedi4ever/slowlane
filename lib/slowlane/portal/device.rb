@@ -1,5 +1,6 @@
 require_relative './util.rb'
 require "spaceship"
+require 'terminal-table'
 
 module Slowlane
   module Portal
@@ -14,9 +15,22 @@ module Slowlane
         t=Utils.team(options)
         Spaceship::Portal.client.team_id=t
 
+        headings = [ 'id', 'udid', 'description' ,'status', 'platform', 'model', 'device_type']
+        rows = []
         Spaceship::Portal.device.all.find_all do |device|
-          puts "#{device.id}|#{device.udid}|#{device.name}"
+          row = []
+          row << device.id
+          row << device.udid
+          row << device.name
+          row << device.status
+          row << device.platform
+          row << device.model
+          row << device.device_type
+          rows << row
         end
+
+         table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
 
       end
 

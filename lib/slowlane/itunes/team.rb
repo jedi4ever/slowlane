@@ -1,5 +1,6 @@
 require 'spaceship'
 require_relative './util.rb'
+require 'terminal-table'
 
 module Slowlane
   module Itunes
@@ -12,11 +13,21 @@ module Slowlane
         c=Utils.credentials(options)
         Spaceship::Tunes.login(c.username,c.password)
 
+        headings = ['vendorId', 'name', 'type', 'roles', 'lastlogin']
+        rows = []
         Spaceship::Tunes.client.teams.each do |team|
-          require 'pp'
-          pp team
-          #puts "#{team['teamId']}|#{team['type']}|#{team['name']}"
+          provider = team['contentProvider']
+          row = []
+          row << provider['contentProviderId']
+          row << provider['name']
+          row << provider['contentProviderTypes'].join(',')
+          row << team['roles'].join(',')
+          row << Time.at(team['lastLogin']/1000) .to_datetime
+          rows << row
         end
+
+        table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
 
       end
 
