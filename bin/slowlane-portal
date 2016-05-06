@@ -7,6 +7,7 @@ require_relative '../lib/slowlane/portal/app.rb'
 require_relative '../lib/slowlane/portal/profile.rb'
 require_relative '../lib/slowlane/portal/device.rb'
 require_relative '../lib/slowlane/portal/psn.rb'
+require_relative '../lib/slowlane/portal/certificate.rb'
 
 class SlowlanePortal < Thor
 
@@ -31,6 +32,9 @@ class SlowlanePortal < Thor
 
   desc "psn SUBCOMMAND ...ARGS", "manage teams"
   subcommand "psn", Slowlane::Portal::Psn
+
+  desc "certificate SUBCOMMAND ...ARGS", "manage teams"
+  subcommand "certificate", Slowlane::Portal::Certificate
 end
 
 SlowlanePortal.start(ARGV)

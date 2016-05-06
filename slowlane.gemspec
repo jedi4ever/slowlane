@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name        = "slowlane"
-  s.version     = "0.0.1.alpha"
+  s.version     = "0.0.3.alpha"
   s.platform    = Gem::Platform::RUBY
   s.license     = 'MIT'
   s.authors     = ["Patrick Debois"]
