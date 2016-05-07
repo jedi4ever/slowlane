@@ -11,9 +11,9 @@ require_relative '../lib/slowlane/portal/certificate.rb'
 
 class SlowlanePortal < Thor
 
-  class_option :username , :default => '<username>' , :required => true, :desc => 'username [SLOWLANE_USERNAME]'
-  class_option :password , :default => '<password>' , :required => true, :desc => 'password [SLOWLANE_PASSWORD]'
-  class_option :team , :default => '<team>' , :required => false, :desc => 'team [SLOWLANE_TEAM]'
+  class_option :username , :default => '<username>' , :required => true, :desc => 'username [SLOWLANE_PORTAL_USERNAME]'
+  class_option :password , :default => '<password>' , :required => true, :desc => 'password [SLOWLANE_PORTAL_PASSWORD]'
+  class_option :team , :default => '<team>' , :required => false, :desc => 'team [SLOWLANE_PORTAL_TEAM]'
 
   desc "profile SUBCOMMAND ...ARGS", "manage provisioning profiles"
   option :filter ,:desc => 'pattern to filter'

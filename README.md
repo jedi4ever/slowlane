@@ -19,3 +19,54 @@ We leverage 'spaceship' library and will continue to work on that to have a shar
 
 ## Status
 Real alpha , as we are still exploring the spaceship api
+
+### Working
+#### Portal
+- `slowlane-portal app list`
+- `slowlane-portal certificate list`
+- `slowlane-portal device list`
+- `slowlane-portal profile list`
+- `slowlane-portal psn list`
+- `slowlane-portal team list`
+
+#### Itunes
+- `slowlane-itunes app list`
+- `slowlane-itunes app info`
+- `slowlane-itunes team list`
+- `slowlane-itunes tester list`
+- `slowlane-itunes build list`
+
+### Todo
+#### Overall options
+- output-format=csv
+- output-file
+- sort-field : 
+- filter
+- tempdir
+- all options should be also pickingup env vars
+- configfile
+
+#### Portal
+- create|delete app
+- create|delete certificate
+- download certificate
+- create|delete device
+- create|delete profile
+- decode profile to list cert & devices
+- download profile
+- combine priv & public profile -> pem,pk12
+- add device to profile
+- remove device to profile
+
+#### Itunes
+- create|delete tester
+- create | submit | delete app
+- build upload
+- all other commands
+
+#### Playstore
+- all commands
+
+#### Crashlytics
+- ipa check
+- upload
