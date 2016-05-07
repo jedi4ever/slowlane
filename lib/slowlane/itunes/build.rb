@@ -1,5 +1,6 @@
 require_relative './util.rb'
 require "spaceship"
+require 'terminal-table'
 
 module Slowlane
   module Itunes
@@ -7,33 +8,8 @@ module Slowlane
 
       class_option :team , :default => '<team>' , :required => true
 
-      desc "list", "List builds for a particular app <id>"
-      option :type , :required => true
-      def list(id)
-
-        c=Utils.credentials(options)
-        Spaceship::Tunes.login(c.username,c.password)
-
-        t=Utils.team(options)
-        Spaceship::Tunes.client.team_id=t
-
-        app = Spaceship::Tunes::Application.find(id)
-        require 'pp' 
-        if (options[:type] == 'live') 
-          pp app.live_version
-        end
-
-        if (options[:type] == 'edit') 
-          pp app.edit_version
-          pp app.edit_version.candidate_builds unless app.edit_version.nil?
-        end
-
-      end
-
-
-      desc "trains", "List trains for a particular app <id>"
-      option :type , :required => true
-      def trains(bundle_id)
+      desc "current", "Shows current build for a particular app <id>"
+      def current(bundle_id)
 
         c=Utils.credentials(options)
         Spaceship::Tunes.login(c.username,c.password)
@@ -42,14 +18,29 @@ module Slowlane
         Spaceship::Tunes.client.team_id=t
 
         app = Spaceship::Tunes::Application.find(bundle_id)
-        require 'pp'
-        pp app.build_trains
+
+        rows = []
+        headings = %w{version platform live status release_on_approval}
+        version=app.live_version
+        if !version.nil?
+          row = %W(#{version.version} #{version.platform} #{version.is_live} #{version.raw_status} #{version.release_on_approval})
+          rows << row unless app.live_version.nil?
+        end
+
+        version=app.edit_version
+        if !version.nil?
+          row = %W(#{version.version} #{version.platform} #{version.is_live} #{version.raw_status} #{version.release_on_approval})
+          rows << row 
+        end
+
+        table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
 
       end
 
-      desc "trainnumbers", "List trainnumbers for a particular app <id>,train <train>"
-      option :type , :required => true
-      def trainnumbers(id,train_id)
+
+      desc "list", "List versions for a particular app <bundle_id>"
+      def list(bundle_id)
 
         c=Utils.credentials(options)
         Spaceship::Tunes.login(c.username,c.password)
@@ -57,11 +48,19 @@ module Slowlane
         t=Utils.team(options)
         Spaceship::Tunes.client.team_id=t
 
-        app = Spaceship::Tunes::Application.find(id)
-        builds = app.all_builds_for_train(train: train_id)
-        builds.each do |build|
-          puts "#{build.train_version}|#{build.build_version}|#{build.app_name}|#{build.platform}|#{build.upload_date}|#{build.processing}|#{build.valid}"
+        app = Spaceship::Tunes::Application.find(bundle_id)
+        headings = %w{app_name platform train_version build_version upload_date processing valid}
+        rows = []
+        app.build_trains.each do |key,value|
+          builds = app.all_builds_for_train(train: key)
+          builds.each do |build|
+            row = %W(#{build.app_name} #{build.platform} #{build.train_version} #{build.build_version} #{Time.at(build.upload_date/1000)} #{build.processing} #{build.valid} )
+            rows << row
+          end
         end
+
+        table = Terminal::Table.new :headings => headings,  :rows => rows
+        puts table
 
       end
 
