@@ -30,10 +30,10 @@ class SlowlanePortal < Thor
   desc "team SUBCOMMAND ...ARGS", "manage teams"
   subcommand "team", Slowlane::Portal::Team
 
-  desc "psn SUBCOMMAND ...ARGS", "manage teams"
+  desc "psn SUBCOMMAND ...ARGS", "manage push notifications"
   subcommand "psn", Slowlane::Portal::Psn
 
-  desc "certificate SUBCOMMAND ...ARGS", "manage teams"
+  desc "certificate SUBCOMMAND ...ARGS", "manage certificates"
   subcommand "certificate", Slowlane::Portal::Certificate
 end
 

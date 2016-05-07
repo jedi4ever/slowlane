@@ -22,7 +22,7 @@ class SlowlaneItunes < Thor
   desc "build SUBCOMMAND ...ARGS", "manage builds"
   subcommand "build", Slowlane::Itunes::Build
 
-  desc "tester SUBCOMMAND ...ARGS", "manage builds"
+  desc "tester SUBCOMMAND ...ARGS", "manage testers"
   subcommand "tester", Slowlane::Itunes::Tester
 
 end
