@@ -18,7 +18,7 @@ Don't get us wrong, we think fastlane is  **great** , but we are one of those wh
 We leverage 'spaceship' library and will continue to work on that to have a shared 
 
 ## Love feedback!
-Let us know if you like this! [We're only one tweet away!](http://twitter.com/slowlane)
+Let us know if you like this! [We're only one tweet away!](http://twitter.com/slowlanetools)
 
 ## Status
 Current able to list most items, moving on to create & delete
