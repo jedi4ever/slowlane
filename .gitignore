@@ -4,3 +4,4 @@ trial/
 Gemfile.lock
 pkg/*
 *.itmsp
+*.swp

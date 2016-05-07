@@ -48,6 +48,7 @@ results in binaries:
 - `slowlane-portal certificate list`
 - `slowlane-portal device list`
 - `slowlane-portal profile list`
+- `slowlane-portal profile decode`
 - `slowlane-portal psn list`
 - `slowlane-portal team list`
 
@@ -78,7 +79,6 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - download certificate
 - create|delete device
 - create|delete profile
-- decode profile to list cert & devices
 - download profile
 - combine priv & public profile -> pem,pk12
 - add device to profile
