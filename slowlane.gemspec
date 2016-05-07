@@ -2,14 +2,14 @@
 
 Gem::Specification.new do |s|
   s.name        = "slowlane"
-  s.version     = "0.0.6"
+  s.version     = "0.0.7"
   s.platform    = Gem::Platform::RUBY
   s.license     = 'MIT'
   s.authors     = ["Patrick Debois"]
   s.email       = ["patrick.debois@jedi.be"]
   s.homepage    = "http://github.com/jedi4ever/slowlane/"
-  s.summary     = %q{Fastlane without the magic - managing ios deployment}
-  s.description = %q{Cli version without supprises}
+  s.summary     = %q{Fastlane without the magic}
+  s.description = %q{Fastlane Cli without supprises}
 
   s.required_rubygems_version = ">= 2.0.6"
   s.rubyforge_project         = "slowlane"
