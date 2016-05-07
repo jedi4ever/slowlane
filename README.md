@@ -90,9 +90,9 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - build upload
 - all other commands
 
+#### Ipa
+- ipa upload
+
 #### Playstore
 - all commands
 
-#### Crashlytics
-- ipa check
-- upload
