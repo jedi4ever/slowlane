@@ -37,9 +37,9 @@ module Slowlane
 
       end
 
-      desc "detail", "details of app <bundle_id>"
+      desc "info", "info of app <bundle_id>"
       class_option :team , :default => '<team>' , :required => true
-      def detail(bundle_id)
+      def info(bundle_id)
 
         c=Utils.credentials(options)
         Spaceship::Tunes.login(c.username,c.password)
