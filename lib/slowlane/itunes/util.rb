@@ -5,8 +5,8 @@ class Utils
 
     credentials = OpenStruct.new
 
-    if ENV['SLOWLANE_USERNAME']
-      credentials.username=ENV['SLOWLANE_USERNAME']
+    if ENV['SLOWLANE_ITUNES_USERNAME']
+      credentials.username=ENV['SLOWLANE_ITUNES_USERNAME']
     else
       if options[:username] == '<username>'
         puts "username is required"
@@ -16,8 +16,8 @@ class Utils
       end
     end
 
-    if ENV['SLOWLANE_PASSWORD']
-      credentials.password=ENV['SLOWLANE_PASSWORD']
+    if ENV['SLOWLANE_ITUNES_PASSWORD']
+      credentials.password=ENV['SLOWLANE_ITUNES_PASSWORD']
     else
       if options[:password] == '<password>'
         puts "password is required"
