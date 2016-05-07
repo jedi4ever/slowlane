@@ -5,6 +5,7 @@ require "thor"
 require_relative '../lib/slowlane/itunes/app.rb'
 require_relative '../lib/slowlane/itunes/team.rb'
 require_relative '../lib/slowlane/itunes/build.rb'
+require_relative '../lib/slowlane/itunes/tester.rb'
 
 class SlowlaneItunes < Thor
 
@@ -21,6 +22,8 @@ class SlowlaneItunes < Thor
   desc "build SUBCOMMAND ...ARGS", "manage builds"
   subcommand "build", Slowlane::Itunes::Build
 
+  desc "tester SUBCOMMAND ...ARGS", "manage builds"
+  subcommand "tester", Slowlane::Itunes::Tester
 
 end
 
