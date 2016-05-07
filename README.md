@@ -20,7 +20,7 @@ We leverage 'spaceship' library and will continue to work on that to have a shar
 ## Status
 Current able to list most items, moving on to create & delete
 
-`gem install fastlane`
+`gem install slowlane`
 
 results in two binaries: `slowlane-itunes` & `slowlane-portal`
 
