@@ -20,12 +20,19 @@ We leverage 'spaceship' library and will continue to work on that to have a shar
 ## Love feedback!
 Let us know if you like this! [We're only one tweet away!](http://twitter.com/slowlanetools)
 
+## Kudos
+- [Fastlane](https://github.com/fastlane/fastlane)
+- [Shenzhen](https://github.com/nomad/shenzhen)
+
 ## Status
 Current able to list most items, moving on to create & delete
 
 `gem install slowlane`
 
-results in two binaries: `slowlane-itunes` & `slowlane-portal`
+results in binaries: 
+- `slowlane-itunes`
+- `slowlane-portal`
+- `slowlane-ipa`
 
 ### Working
 #### environment vars
@@ -51,8 +58,12 @@ results in two binaries: `slowlane-itunes` & `slowlane-portal`
 - `slowlane-itunes tester list`
 - `slowlane-itunes build list`
 
+#### Ipa
+- `slowlane-ipa info`
+
 ### Todo
-#### Overall options
+#### Overall
+A lot is still focusing on the happy path , we need to catch better the errors and deal with it
 - output-format=csv
 - output-file
 - sort-field : 

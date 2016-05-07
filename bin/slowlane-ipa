@@ -1,0 +1,80 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "thor"
+require 'plist'
+require 'tempfile'
+require 'zip'
+require 'zip/filesystem'
+require 'terminal-table'
+
+class SlowlaneIpa < Thor
+
+  # Currently Ripped from shenzhen rubygem, will cleanup later
+  # I did not want dependencies on shenzhen too much as they might conflict with fastlane and it is not maintained anymore
+  desc "info <filename>", "get info from ipa file"
+  def info(filename)
+    Zip::File.open(filename) do |zipfile|
+      app_entry = zipfile.find_entry("Payload/#{File.basename(filename, File.extname(filename))}.app")
+      provisioning_profile_entry = zipfile.find_entry("#{app_entry.name}embedded.mobileprovision") if app_entry
+
+      if (!provisioning_profile_entry)
+        zipfile.dir.entries("Payload").each do |dir_entry|
+          if dir_entry =~ /.app$/
+            #say "Using .app: #{dir_entry}"
+            app_entry = zipfile.find_entry("Payload/#{dir_entry}")
+            provisioning_profile_entry = zipfile.find_entry("#{app_entry.name}embedded.mobileprovision") if app_entry
+            break
+          end
+        end
+      end
+
+      #say_error "Embedded mobile provisioning file not found in #{@file}" and abort unless provisioning_profile_entry
+
+      tempdir = ::File.new(Dir.mktmpdir)
+      begin
+        zipfile.each do |zip_entry|
+          temp_entry_path = ::File.join(tempdir.path, zip_entry.name)
+
+          FileUtils.mkdir_p(::File.dirname(temp_entry_path))
+          zipfile.extract(zip_entry, temp_entry_path) unless ::File.exist?(temp_entry_path)
+        end
+
+        temp_provisioning_profile = ::File.new(::File.join(tempdir.path, provisioning_profile_entry.name))
+        temp_app_directory = ::File.new(::File.join(tempdir.path, app_entry.name))
+
+        plist = Plist::parse_xml(`security cms -D -i #{temp_provisioning_profile.path}`)
+
+        codesign = `codesign -dv "#{temp_app_directory.path}" 2>&1`
+        codesigned = /Signed Time/ === codesign
+
+        table = Terminal::Table.new do |t|
+          plist.each do |key, value|
+            next if key == "DeveloperCertificates"
+
+            columns = []
+            columns << key
+            columns << case value
+            when Hash
+              value.collect{|k, v| "#{k}: #{v}"}.join("\n")
+            when Array
+              value.join("\n")
+            else
+              value.to_s
+            end
+
+            t << columns
+          end
+
+          t << ["Codesigned", codesigned.to_s.capitalize]
+        end
+
+        puts table
+
+      end
+
+    end
+  end
+end
+
+SlowlaneIpa.start(ARGV)

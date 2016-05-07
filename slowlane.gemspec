@@ -18,6 +18,9 @@ Gem::Specification.new do |s|
   s.add_dependency "spaceship"
   s.add_dependency "fastlane_core"
   s.add_dependency "terminal-table"
+  s.add_dependency 'rubyzip', '~> 1.1'
+  s.add_dependency 'zip-zip'
+  s.add_dependency 'CFPropertyList'
 
   s.files        = `git ls-files`.split("\n")
   s.executables  = `git ls-files`.split("\n").map { |f| f =~ /^bin\/(.*)/ ? $1 : nil }.compact
