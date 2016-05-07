@@ -51,10 +51,37 @@ module Slowlane
 
       end
 
-      desc "device::add","device::add <bundle_id> <device>"
-      def add_device(bundle_id,device)
-        puts bundle_id
-        puts device
+      desc "add_device","add_device <bundle_id> <device_udid>"
+      def device_add(bundle_id,device_udid)
+        puts "Note: only adding devices to distribution adhoc profiles"
+
+        device=Spaceship.device.find_by_udid(device_udid)
+        if device.nil?
+          puts "No device with udid #{device_udid} found"
+          exit(-1)
+        end
+
+        profiles = Spaceship.provisioning_profile.find_by_bundle_id(bundle_id)
+        distribution_profiles = profiles.select do |profile|
+          profile.type == "iOS Distribution" and profile.distribution_method == "adhoc"
+        end
+
+        if distribution_profiles.size() == 0
+          puts "We found no provisioning profiles for bundle_id #{bundle_id}"
+          exit(-1)
+        end
+
+        if distribution_profiles.size() > 1
+          puts "We found multiple provisioning profiles for bundle_id #{bundle_id}"
+          exit(-1)
+        end
+
+        profile=distribution_profiles.first
+        profile.devices.push(device)
+        profile.update!
+
+        puts "device with udid #{device_udid} added to provisioning profile #{profile.name}(#{bundle_id})"
+
       end
 
       desc "list", "List profiles"
