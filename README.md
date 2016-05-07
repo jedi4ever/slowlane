@@ -32,7 +32,7 @@ Current able to list most items, moving on to create & delete
 results in binaries: 
 - `slowlane-itunes`
 - `slowlane-portal`
-- `slowlane-ipa` (not this might change to a more generic `slowlane-ios` command)
+- `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ### Working
 #### environment vars
