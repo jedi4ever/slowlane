@@ -21,6 +21,15 @@ We leverage 'spaceship' library and will continue to work on that to have a shar
 Real alpha , as we are still exploring the spaceship api
 
 ### Working
+#### environment vars
+- `SLOWLANE_ITUNES_USER`
+- `SLOWLANE_ITUNES_PASSWORD`
+- `SLOWLANE_ITUNES_TEAM`
+
+- `SLOWLANE_PORTAL_USER`
+- `SLOWLANE_PORTAL_PASSWORD`
+- `SLOWLANE_PORTAL_TEAM`
+
 #### Portal
 - `slowlane-portal app list`
 - `slowlane-portal certificate list`
