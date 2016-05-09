@@ -84,6 +84,40 @@ module Slowlane
 
       end
 
+      #option :platform,:default => 'ios', :banner => '<adhoc,limited,store>'
+      desc "download", "download provisioning profile <bundle_id>"
+      option :distribution_method,:required => true , :banner => '<adhoc,limited,store>'
+      def download(bundle_id)
+
+        c=Utils.credentials(options)
+        Spaceship::Portal.login(c.username,c.password)
+
+        t=Utils.team(options)
+        Spaceship::Portal.client.team_id=t
+
+        profiles = Spaceship.provisioning_profile.find_by_bundle_id(bundle_id)
+        distribution_profiles = profiles.select do |profile|
+          profile.distribution_method == options[:distribution_method]
+        end
+
+        if distribution_profiles.size() == 0
+          puts "We found no provisioning profiles for bundle_id #{bundle_id}"
+          exit(-1)
+        end
+
+        if distribution_profiles.size() > 1
+          puts "We found multiple provisioning profiles for bundle_id #{bundle_id}"
+          exit(-1)
+        end
+
+        profile=distribution_profiles.first
+
+        filename = "#{profile.uuid}.mobileprovision"
+        puts "writing provisioning profile #{profile.name}(#{bundle_id}) to #{filename}"
+        File.write("#{profile.uuid}.mobileprovision", profile.download)
+
+      end
+
       desc "list", "List profiles"
       def list()
 
@@ -94,13 +128,16 @@ module Slowlane
         Spaceship::Portal.client.team_id=t
 
         rows = []
-        headings = [ 'uuid', 'id', 'distribution_method', 'name' ,'bundle_id']
+        headings = [ 'uuid', 'id', 'distribution_method', 'name' ,'platform','type','bundle_id']
         Spaceship::Portal.provisioning_profile.all.find_all do |profile|
           row = []
           row << profile.uuid
           row << profile.id
           row << profile.distribution_method
           row << profile.name
+          #TODO Spaceship - separate this type
+          row << profile.type.split(' ')[0].downcase
+          row << profile.type.split(' ')[1].downcase
           row << profile.app.bundle_id
 
           unless options[:filter].nil?
