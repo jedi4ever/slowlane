@@ -49,6 +49,7 @@ results in binaries:
 - `slowlane-portal device list`
 - `slowlane-portal profile list`
 - `slowlane-portal profile decode`
+- `slowlane-portal profile download`
 - `slowlane-portal psn list`
 - `slowlane-portal team list`
 
@@ -76,7 +77,6 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 #### Portal
 - create|delete app
 - create|delete certificate
-- download certificate
 - create|delete device
 - create|delete profile
 - download profile
