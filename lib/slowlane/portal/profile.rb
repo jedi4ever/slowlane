@@ -94,13 +94,15 @@ module Slowlane
         Spaceship::Portal.client.team_id=t
 
         rows = []
-        headings = [ 'uuid', 'id', 'distribution_method', 'name' ]
+        headings = [ 'uuid', 'id', 'distribution_method', 'name' ,'bundle_id']
         Spaceship::Portal.provisioning_profile.all.find_all do |profile|
           row = []
           row << profile.uuid
           row << profile.id
           row << profile.distribution_method
           row << profile.name
+          row << profile.app.bundle_id
+
           unless options[:filter].nil?
             if profile.name =~ /#{options[:filter]}/
               rows << row
