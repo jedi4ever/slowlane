@@ -48,7 +48,7 @@ results in binaries:
 - `slowlane-portal certificate list`
 - `slowlane-portal device list`
 - `slowlane-portal profile list`
-- `slowlane-portal profile decode`
+- `slowlane-portal profile decode <provisioningfile>`
 - `slowlane-portal profile download`
 - `slowlane-portal psn list`
 - `slowlane-portal team list`
@@ -59,6 +59,7 @@ results in binaries:
 - `slowlane-itunes team list`
 - `slowlane-itunes tester list`
 - `slowlane-itunes build list`
+- `slowlane-itunes build upload <bundle_id> <ipa_file>`
 
 #### Ipa
 - `slowlane-ipa info`
@@ -79,7 +80,6 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - create|delete certificate
 - create|delete device
 - create|delete profile
-- download profile
 - combine priv & public profile -> pem,pk12
 - add device to profile
 - remove device to profile
@@ -87,12 +87,7 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 #### Itunes
 - create|delete tester
 - create | submit | delete app
-- build upload
 - all other commands
-
-#### Ipa
-- ipa upload
 
 #### Playstore
 - all commands
-

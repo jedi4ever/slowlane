@@ -77,18 +77,30 @@ module Slowlane
         app = Spaceship::Tunes::Application.find(bundle_id)
 
         require "fastlane_core"
-        #plist = FastlaneCore::IpaFileAnalyser.fetch_info_plist_file("build.ipa"]) || {}
-        #platform = plist["DTPlatformName"]
-        #platform = "ios" if platform == "iphoneos" # via https://github.com/fastlane/spaceship/issues/247
+        require "pathname"
+        plist = FastlaneCore::IpaFileAnalyser.fetch_info_plist_file(filename) || {}
+        platform = plist["DTPlatformName"]
+        platform = "ios" if platform == "iphoneos" # via https://github.com/fastlane/spaceship/issues/247
         package_path = FastlaneCore::IpaUploadPackageBuilder.new.generate(app_id: app.apple_id,
                                                                           ipa_path: filename,
-                                                                          package_path: options[:temp_dir],
-                                                                          platform: 'ios')
+                                                                          package_path: Pathname.new(options[:temp_dir]).realpath.to_s,
+                                                                          platform: platform)
 
         # https://github.com/fastlane/fastlane/blob/1229fc55f004975e94226961ef23bbaa554f82b0/fastlane_core/lib/fastlane_core/itunes_transporter.rb#L267
-        puts package_path
-        #transporter = FastlaneCore::ItunesTransporter.new(options[:username],options[:password])
-        #result = transporter.upload(app.apple_id, package_path)
+        transporter = FastlaneCore::ItunesTransporter.new(c.username,c.password)
+        # TODO easier way to disable loggs
+        #require 'logger'
+        #transporter.log = Logger.new(nil)
+        #ENV['CIRCLECI']='yes'
+
+        # TODO why need to specify this
+        # https://github.com/fastlane/fastlane/issues/2294
+        # Could not start delivery: all transports failed diagnostics
+        ENV["DELIVER_ITMSTRANSPORTER_ADDITIONAL_UPLOAD_PARAMETERS"] = "-t DAV"
+        result = transporter.upload(app.apple_id, package_path)
+        if !result
+          exit(-1)
+        end
       end
 
 
