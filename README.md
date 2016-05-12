@@ -45,6 +45,8 @@ results in binaries:
 
 #### Portal
 - `slowlane-portal app list`
+- `slowlane-portal app create <bundle_id> <name>`
+- `slowlane-portal app delete <bundle_id>`
 - `slowlane-portal certificate list`
 - `slowlane-portal device list`
 - `slowlane-portal profile list`
@@ -62,7 +64,7 @@ results in binaries:
 - `slowlane-itunes build upload <bundle_id> <ipa_file>`
 
 #### Ipa
-- `slowlane-ipa info`
+- `slowlane-ipa info <ipa_file>`
 
 ### Todo
 #### Overall
@@ -76,7 +78,6 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - configfile
 
 #### Portal
-- create|delete app
 - create|delete certificate
 - create|delete device
 - create|delete profile

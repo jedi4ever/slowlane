@@ -35,6 +35,32 @@ module Slowlane
 
       end
 
+      #TODO allow type mac too
+      desc "create", "create <bundle_id> <name>"
+      def create(bundle_id,name)
+
+        c=Utils.credentials(options)
+        Spaceship::Portal.login(c.username,c.password)
+
+        t=Utils.team(options)
+        Spaceship::Portal.client.team_id=t
+
+        Spaceship::Portal.app.create!(bundle_id: bundle_id,name: name)
+
+      end
+
+      desc "delete", "delete <bundle_id>"
+      def delete(bundle_id)
+        c=Utils.credentials(options)
+        Spaceship::Portal.login(c.username,c.password)
+
+        t=Utils.team(options)
+        Spaceship::Portal.client.team_id=t
+
+        app = Spaceship::Portal.app.find(bundle_id)
+        app.delete!
+      end
+
     end
   end
 end
