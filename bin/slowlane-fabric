@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require "thor"
+
+require_relative '../lib/slowlane/fabric/app.rb'
+require_relative '../lib/slowlane/fabric/tester.rb'
+require_relative '../lib/slowlane/fabric/organization.rb'
+require_relative '../lib/slowlane/fabric/command.rb'
+
+SlowlaneFabric.start(ARGV)

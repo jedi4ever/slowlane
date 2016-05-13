@@ -23,6 +23,14 @@ Let us know if you like this! [We're only one tweet away!](http://twitter.com/sl
 ## Kudos
 - [Fastlane](https://github.com/fastlane/fastlane)
 - [Shenzhen](https://github.com/nomad/shenzhen)
+- [Atlantispro](https://github.com/Legoless/Atlantis)
+
+## Changes
+1.1.0
+- added slowlane-fabric (organization, tester, apps)
+
+1.0.0
+- first release 
 
 ## Status
 Current able to list most items, moving on to create & delete
@@ -32,6 +40,7 @@ Current able to list most items, moving on to create & delete
 results in binaries: 
 - `slowlane-itunes`
 - `slowlane-portal`
+- `slowlane-fabric`
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ### Working
@@ -42,6 +51,9 @@ results in binaries:
 - `SLOWLANE_PORTAL_USER`
 - `SLOWLANE_PORTAL_PASSWORD`
 - `SLOWLANE_PORTAL_TEAM`
+- `SLOWLANE_FABRIC_USER`
+- `SLOWLANE_FABRIC_PASSWORD`
+- `SLOWLANE_FABRIC_TEAM`
 
 #### Portal
 - `slowlane-portal app list`
@@ -62,6 +74,10 @@ results in binaries:
 - `slowlane-itunes tester list`
 - `slowlane-itunes build list`
 - `slowlane-itunes build upload <bundle_id> <ipa_file>`
+
+#### Fabric
+- `slowlane-fabric app list`
+- `slowlane-fabric tester list <bundle_id>`
 
 #### Ipa
 - `slowlane-ipa info <ipa_file>`
@@ -89,6 +105,12 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - create|delete tester
 - create | submit | delete app
 - all other commands
+
+#### Fabric
+- info organization
+- create|delete|list groups
+- create|delete|list testers
+- list, add device
 
 #### Playstore
 - all commands
