@@ -20,18 +20,6 @@ We leverage 'spaceship' library and will continue to work on that to have a shar
 ## Love feedback!
 Let us know if you like this! [We're only one tweet away!](http://twitter.com/slowlanetools)
 
-## Kudos
-- [Fastlane](https://github.com/fastlane/fastlane)
-- [Shenzhen](https://github.com/nomad/shenzhen)
-- [Atlantispro](https://github.com/Legoless/Atlantis)
-
-## Changes
-1.1.0
-- added slowlane-fabric (organization, tester, apps)
-
-1.0.0
-- first release 
-
 ## Status
 Current able to list most items, moving on to create & delete
 
@@ -42,6 +30,21 @@ results in binaries:
 - `slowlane-portal`
 - `slowlane-fabric`
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
+
+## Changes
+1.1.0
+- fix missing mechanize
+
+1.1.0
+- added slowlane-fabric (organization, tester, apps)
+
+1.0.0
+- first release 
+
+## Kudos
+- [Fastlane](https://github.com/fastlane/fastlane)
+- [Shenzhen](https://github.com/nomad/shenzhen)
+- [Atlantispro](https://github.com/Legoless/Atlantis)
 
 ### Working
 #### environment vars
