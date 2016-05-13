@@ -17,14 +17,18 @@ module Slowlane
         fabric.team = Utils.team(options)
         apps = fabric.list_apps()
 
-        headings = ['id', 'name', 'bundle_id']
+        headings = ['id', 'name', 'bundle_id', 'plaform', 'status']
         rows = []
 
+        require 'pp'
+        pp apps
         apps.each do |app|
           row = []
           row << app['id']
           row << app['name']
           row << app['bundle_identifier']
+          row << app['platform']
+          row << app['status']
           rows << row
         end
 
