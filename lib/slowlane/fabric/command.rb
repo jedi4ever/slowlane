@@ -14,4 +14,7 @@ class SlowlaneFabric < Thor
   desc "tester SUBCOMMAND ...ARGS", "manage testers"
   subcommand "tester", Slowlane::Fabric::Tester
 
+  desc "member SUBCOMMAND ...ARGS", "manage testers"
+  subcommand "member", Slowlane::Fabric::Member
+
 end

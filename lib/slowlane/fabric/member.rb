@@ -4,9 +4,9 @@ require 'terminal-table'
 
 module Slowlane
   module Fabric 
-    class Organization <Thor
+    class Member <Thor
 
-      desc "list", "get list of organizations"
+      desc "list", "get list of members"
       def list
 
         c=Utils.credentials(options)
@@ -15,19 +15,19 @@ module Slowlane
         fabric.username = c.username
         fabric.password = c.password
         fabric.team = Utils.team(options)
-        orgs = fabric.list_organizations
+        members = fabric.list_members
 
-        headings = ['id', 'name', 'alias','accounts_count', 'build_secret', 'api_key']
+        headings = ['id', 'name', 'email','phone', 'is_admin', 'is_activated']
         rows = []
 
-        orgs.each do |org|
+        members.each do |org|
           row = []
           row << org['id']
           row << org['name']
-          row << org['alias']
-          row << org['accounts_count']
-          row << org['build_secret']
-          row << org['api_key']
+          row << org['email']
+          row << org['phone']
+          row << org['is_admin']
+          row << org['is_activated']
           rows << row
         end
 

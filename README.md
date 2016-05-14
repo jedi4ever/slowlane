@@ -32,14 +32,10 @@ results in binaries:
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ## Changes
-1.1.0
-- fix missing mechanize
-
-1.1.0
-- added slowlane-fabric (organization, tester, apps)
-
-1.0.0
-- first release 
+- 1.2.0: (fabric) list testers, list devices of tester, list members
+- 1.1.1: fix missing mechanize gem
+- 1.1.0: added slowlane-fabric (organization, tester, apps)
+- 1.0.0: first release 
 
 ## Kudos
 - [Fastlane](https://github.com/fastlane/fastlane)
@@ -80,7 +76,10 @@ results in binaries:
 
 #### Fabric
 - `slowlane-fabric app list`
-- `slowlane-fabric tester list <bundle_id>`
+- `slowlane-fabric tester list`
+- `slowlane-fabric tester devices <email>`
+- `slowlane-fabric organization list`
+- `slowlane-fabric member list`
 
 #### Ipa
 - `slowlane-ipa info <ipa_file>`
@@ -110,9 +109,8 @@ A lot is still focusing on the happy path , we need to catch better the errors a
 - all other commands
 
 #### Fabric
-- info organization
 - create|delete|list groups
-- create|delete|list testers
+- create|delete
 - list, add device
 
 #### Playstore

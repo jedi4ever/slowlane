@@ -122,13 +122,35 @@ module Slowlane
         return organizations
       end
 
+      def list_members
+        bootstrap
+
+        page = get("/api/v2/organizations/#{self.team_id}/team_members")
+
+        members = JSON.parse(page.body)
+
+        return members
+      end
+
       def find_app_by_bundle_id(bundle_id)
         apps = list_apps()
         apps.find { |app| app['bundle_identifier'] == bundle_id }
       end
 
-      def list_testers(app_id)
+      def find_tester_by_email(email)
+        testers = list_testers()
+        testers.find { |tester| tester['email'] == email }
+      end
+
+
+      def list_testers(app_id = nil)
+
         bootstrap
+
+        if app_id.nil?
+          app_id = self.list_apps.first['id']
+        end
+
         page = get("/api/v2/organizations/#{self.team_id}/apps/#{app_id}/beta_distribution/testers_in_organization?include_developers=true")
 
         testers = JSON.parse(page.body)
@@ -136,122 +158,16 @@ module Slowlane
         return testers['testers']
       end
 
-      def list_people(group)
+      def list_devices(app_id,tester_id)
         bootstrap
 
-        apps = list_apps
+        page = get("/api/v2/organizations/#{self.team_id}/beta_distribution/testers/#{tester_id}/devices")
 
-        all_testers = {}
+        devices = JSON.parse(page.body)
+        return devices['devices']
 
-        apps.each do |app|
-          testers = list_testers (app['id'])
-
-          #
-          # For each tester go through it's devices and add them
-          #
-
-          testers.each do |tester|
-
-            #
-            # If tester is not yet in, create it
-            #
-
-            if all_testers[tester['id']].nil?
-
-              person = Person.new
-              person.id = tester['id']
-              person.name = tester['name']
-              person.email = tester['email']
-              person.groups = []
-              person.devices = {}
-
-              add_group = false
-
-              if tester['groups']
-                groups = tester['groups']
-
-                groups.each do |current_group|
-
-                  person_group = Group.new
-                  person_group.id = current_group['id']
-                  person_group.name = current_group['name']
-                  person_group.alias = current_group['alias']
-
-                  person.groups << person_group
-
-                  if person_group.name == group or person_group.alias == group
-                    add_group = true
-                  end
-                end
-              end
-
-              if (add_group == true or group.nil?) and !person.name.empty?
-                all_testers[person.id] = person
-              end
-            else
-              person = all_testers[tester['id']]
-            end
-
-            append_devices(person, tester['devices'])
-          end
-        end
-
-        return all_testers
       end
 
-      def list_devices(group)
-        bootstrap
-
-        testers = list_people(group)
-
-        devices = {}
-
-        testers.each do |id, tester|
-          devices = devices.merge (tester.devices)
-        end
-
-        return devices.values
-      end
-
-      def list_groups
-        testers = list_people(nil)
-
-        groups = {}
-
-        testers.each do |id, tester|
-          tester.groups.each do |group|
-            groups[group.id] = group
-          end
-        end
-
-        return groups.values
-      end
-
-      private
-
-      def append_devices (person, devices)
-
-        if devices.nil?
-          return nil
-        end
-
-        devices.each do |device|
-
-          if person.devices[device['identifier']].nil?
-            current_device = Device.new
-            current_device.manufacturer = device['manufacturer']
-            current_device.model = device['model']
-            current_device.os_version = device['os_version']
-            current_device.identifier = device['identifier']
-            current_device.name = device['name']
-            current_device.platform = device['platform']
-            current_device.model_name = device['model_name']
-
-            person.devices[current_device.identifier] = current_device
-          end
-
-        end
-      end
 
       def csrf!
         page = get('/login')
@@ -311,7 +227,6 @@ module Slowlane
         teams = self.login_data['organizations']
 
         teams.each do |team|
-          #puts team['name']
 
           if team['alias'] == self.team or team['name'] == self.team
             self.team_id = team['id']
@@ -325,7 +240,6 @@ module Slowlane
           raise Error
         end
 
-        #puts "SELECTED TEAM: #{self.team_id}"
       end
 
     end

@@ -5,6 +5,7 @@ require "thor"
 
 require_relative '../lib/slowlane/fabric/app.rb'
 require_relative '../lib/slowlane/fabric/tester.rb'
+require_relative '../lib/slowlane/fabric/member.rb'
 require_relative '../lib/slowlane/fabric/organization.rb'
 require_relative '../lib/slowlane/fabric/command.rb'
 
