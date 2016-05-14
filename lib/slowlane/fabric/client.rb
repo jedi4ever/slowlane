@@ -10,9 +10,14 @@ module Slowlane
       attr_accessor :username,:password,:team
       attr_accessor :developer_token, :access_token, :csrf_token, :login_data, :team_id
 
-      def initialize
-        self.agent = Mechanize.new
+      def agent
+        unless @agent
+          @agent = ::Mechanize.new
+        end
+        @agent
+      end
 
+      def initialize
         self.host = "fabric.io"
       end
 
@@ -37,9 +42,9 @@ module Slowlane
 
         3.times do
 
-          self.agent.get(uri, parameters, referer, headers)
+          agent.get(uri, parameters, referer, headers)
 
-          return self.agent.page
+          return agent.page
         end
 
         #raise NetworkError
@@ -69,37 +74,6 @@ module Slowlane
         if (self.access_token.nil?)
           login!
         end
-      end
-
-      def list_devices(distribution_list)
-        people = list_people(distribution_list)
-
-        people_list = []
-
-        people.each do |person|
-          people_list << person.id
-        end
-
-        self.agent.post('/dashboard/team/export/devices/', { "members" => people_list.join('|'), "csrfmiddlewaretoken" => self.agent.page.parser.css("[name='csrfmiddlewaretoken']")[0]['value'] } )
-
-        device_list = self.agent.page.body.split( /\r?\n/ )
-
-        # Remove first one
-        device_list.shift
-
-        devices = []
-
-        device_list.each do |dev|
-          #puts dev
-
-          device = Device.new
-          device.udid = dev.split(/\t/)[0]
-          device.name = dev.split(/\t/)[1]
-
-          devices << device
-        end
-
-        devices
       end
 
       def list_apps
@@ -195,7 +169,7 @@ module Slowlane
       def login!
         begin
 
-          session = self.agent.post('https://fabric.io/api/v2/session', { "email" => self.username, "password" => self.password }, { 'X-CRASHLYTICS-DEVELOPER-TOKEN' => self.developer_token, 'X-CSRF-Token' => self.csrf_token, 'X-Requested-With' => 'XMLHttpRequest' } )
+          session = agent.post('https://fabric.io/api/v2/session', { "email" => self.username, "password" => self.password }, { 'X-CRASHLYTICS-DEVELOPER-TOKEN' => self.developer_token, 'X-CSRF-Token' => self.csrf_token, 'X-Requested-With' => 'XMLHttpRequest' } )
 
         rescue Mechanize::ResponseCodeError => ex
           message = JSON.parse(ex.page.body)
@@ -205,7 +179,7 @@ module Slowlane
           end
         end
 
-        self.login_data = JSON.parse(self.agent.page.body)
+        self.login_data = JSON.parse(agent.page.body)
 
         unless self.login_data['token'].nil?
           self.access_token = self.login_data['token']
