@@ -23,15 +23,13 @@ module Slowlane
           exit(-1)
         end
 
-        app = apps.first()
-
         all_devices = []
 
         testers = fabric.list_testers(nil)
         testers.each do |tester|
           tester_id = tester['id']
           if tester_id.is_a? Integer
-            tester_devices = fabric.list_devices(app['id'],tester_id)
+            tester_devices = fabric.list_tester_devices(tester_id)
             tester_devices.each do |d|
               d['owner'] = tester['name']
               d['email'] = tester['email']
@@ -48,6 +46,7 @@ module Slowlane
           row = []
 
           row << device['owner']
+          row << device['email']
           row << device['identifier']
           row << device['model_name']
           row << device['platform']

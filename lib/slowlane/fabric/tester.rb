@@ -40,6 +40,33 @@ module Slowlane
 
       end
 
+      desc "info", "get info of tester <email>"
+      def info(email)
+
+        c=Utils.credentials(options)
+
+        fabric = Slowlane::Fabric::Client.new
+        fabric.username = c.username
+        fabric.password = c.password
+        fabric.team = Utils.team(options)
+
+        tester = fabric.find_tester_by_email(email)
+        if tester.nil?
+          puts "No tester with email #{email} found"
+          exit(-1)
+        end
+
+        devices = fabric.list_tester_devices(tester['id'])
+        groups = fabric.list_tester_groups(tester['id'])
+        apps = fabric.list_tester_apps(tester['id'])
+
+        require 'pp'
+        pp devices
+        pp groups
+        pp apps
+
+      end
+
       desc "devices", "get devices of tester <email>"
       def devices(email)
 
@@ -56,14 +83,13 @@ module Slowlane
           exit(-1)
         end
 
-        app = apps.first()
         tester = fabric.find_tester_by_email(email)
         if tester.nil?
           puts "No tester with email #{email} found"
           exit(-1)
         end
 
-        devices = fabric.list_devices(app['id'],tester['id'])
+        devices = fabric.list_devices(tester['id'])
 
         headings = ['id', 'name', 'platform', 'type' , 'os_version', 'transferred']
         rows = []

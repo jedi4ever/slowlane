@@ -132,16 +132,36 @@ module Slowlane
         return testers['testers']
       end
 
-      def list_devices(app_id,tester_id)
+      def list_tester_devices(tester_id)
         bootstrap
 
         page = get("/api/v2/organizations/#{self.team_id}/beta_distribution/testers/#{tester_id}/devices")
 
-        devices = JSON.parse(page.body)
-        return devices['devices']
+        data = JSON.parse(page.body)
+        return data['devices']
 
       end
 
+
+      def list_tester_apps(tester_id)
+        bootstrap
+
+        page = get("/api/v2/organizations/#{self.team_id}/beta_distribution/testers/#{tester_id}/apps")
+
+        data = JSON.parse(page.body)
+        return data['apps']
+
+      end
+
+      def list_tester_groups(tester_id)
+        bootstrap
+
+        page = get("/api/v2/organizations/#{self.team_id}/beta_distribution/testers/#{tester_id}/groups")
+
+        data = JSON.parse(page.body)
+        return data['groups']
+
+      end
 
       def csrf!
         page = get('/login')
