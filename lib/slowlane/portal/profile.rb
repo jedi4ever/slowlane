@@ -52,7 +52,13 @@ module Slowlane
       end
 
       desc "add_device","add_device <bundle_id> <device_udid>"
-      def device_add(bundle_id,device_udid)
+      def add_device(bundle_id,device_udid)
+        c=Utils.credentials(options)
+        Spaceship::Portal.login(c.username,c.password)
+
+        t=Utils.team(options)
+        Spaceship::Portal.client.team_id=t
+
         puts "Note: only adding devices to distribution adhoc profiles"
 
         device=Spaceship.device.find_by_udid(device_udid)

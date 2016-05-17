@@ -63,6 +63,7 @@ results in binaries:
 - `slowlane-portal device list`
 - `slowlane-portal profile list`
 - `slowlane-portal profile decode <provisioningfile>`
+- `slowlane-portal profile add_device <bundle_id> <udid>`
 - `slowlane-portal profile download`
 - `slowlane-portal psn list`
 - `slowlane-portal team list`
