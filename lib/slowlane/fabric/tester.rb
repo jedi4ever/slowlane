@@ -67,6 +67,36 @@ module Slowlane
 
       end
 
+      desc "resend_invitation", "invite tester with <email> to app with <bundle_id>"
+      def resend_invitation(email,bundle_id)
+        c=Utils.credentials(options)
+
+        fabric = Slowlane::Fabric::Client.new
+        fabric.username = c.username
+        fabric.password = c.password
+        fabric.team = Utils.team(options)
+
+        apps = fabric.find_apps_by_bundle_id(bundle_id)
+        apps.each do |app|
+        fabric.tester_resend_invitation(app['id'],email)
+        end
+      end
+
+      desc "invite", "invite tester with <email> to group <group_name>"
+      def invite(email,bundle_id)
+        c=Utils.credentials(options)
+
+        fabric = Slowlane::Fabric::Client.new
+        fabric.username = c.username
+        fabric.password = c.password
+        fabric.team = Utils.team(options)
+
+        apps = fabric.find_apps_by_bundle_id(bundle_id)
+        apps.each do |app|
+          fabric.tester_invite(app['id'],email)
+        end
+      end
+
       desc "devices", "get devices of tester <email>"
       def devices(email)
 

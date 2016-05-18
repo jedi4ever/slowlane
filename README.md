@@ -32,6 +32,7 @@ results in binaries:
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ## Changes
+- 1.2.3: (fabric) invite and resend_invitation tester
 - 1.2.2: (portal) add_device to provisioning profile
 - 1.2.1: (fabric) list all devices
 - 1.2.0: (fabric) list testers, list devices of tester, list members

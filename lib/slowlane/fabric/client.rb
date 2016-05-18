@@ -51,6 +51,38 @@ module Slowlane
         raise Error
       end
 
+      def post(uri, parameters = [], referer = nil, headers = {})
+        uri = ::File.join("https://#{self.host}", uri) unless /^https?/ === uri
+
+        #puts "Requesting: #{uri}"
+
+        unless (self.developer_token.nil?)
+          headers['X-CRASHLYTICS-DEVELOPER-TOKEN'] = self.developer_token
+        end
+
+        unless (self.access_token.nil?)
+          headers['X-CRASHLYTICS-ACCESS-TOKEN'] = self.access_token
+        end
+
+        unless (self.csrf_token.nil?)
+          headers['X-CSRF-Token'] = self.csrf_token
+        end
+
+        headers['X-Requested-With'] = 'XMLHttpRequest'
+        headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+
+        # emails[]:patrick@smalltownheroes.be
+        3.times do
+
+          agent.post(uri, parameters, headers)
+
+          return agent.page
+        end
+
+        #raise NetworkError
+        raise Error
+      end
+
       #
       # Handles login and CSRF tokens
       #
@@ -106,9 +138,9 @@ module Slowlane
         return members
       end
 
-      def find_app_by_bundle_id(bundle_id)
+      def find_apps_by_bundle_id(bundle_id)
         apps = list_apps()
-        apps.find { |app| app['bundle_identifier'] == bundle_id }
+        apps.select { |app| app['bundle_identifier'] == bundle_id }
       end
 
       def find_tester_by_email(email)
@@ -151,6 +183,29 @@ module Slowlane
         data = JSON.parse(page.body)
         return data['apps']
 
+      end
+
+      def tester_resend_invitation(app_id,email)
+        bootstrap
+
+        page = post("/api/v2/organizations/#{self.team_id}/apps/#{app_id}/beta_distribution/resend_invitation", {
+          "emails[]" => email 
+        })
+        data = JSON.parse(page.body)
+        require 'pp'
+        pp data
+      end
+
+
+      def tester_invite(app_id,group_id,email)
+        bootstrap
+
+        page = post("/api/v2/organizations/#{self.team_id}/apps/#{app_id}/beta_distribution/groups/#{group_id}/testers/invite", {
+          "emails[]" => email 
+        })
+        data = JSON.parse(page.body)
+        require 'pp'
+        pp data
       end
 
       def list_tester_groups(tester_id)
