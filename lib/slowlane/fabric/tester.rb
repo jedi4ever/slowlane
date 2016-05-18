@@ -82,8 +82,8 @@ module Slowlane
         end
       end
 
-      desc "invite", "invite tester with <email> to group <group_name>"
-      def invite(email,bundle_id)
+      desc "invite", "invite tester with <email> to <bundle_id> in group <group_name>"
+      def invite(email,bundle_id,group_name)
         c=Utils.credentials(options)
 
         fabric = Slowlane::Fabric::Client.new
@@ -91,9 +91,11 @@ module Slowlane
         fabric.password = c.password
         fabric.team = Utils.team(options)
 
+        group = fabric.find_group_by_name(group_name)
+
         apps = fabric.find_apps_by_bundle_id(bundle_id)
         apps.each do |app|
-          fabric.tester_invite(app['id'],email)
+          fabric.tester_invite(app['id'],group['id'],email)
         end
       end
 

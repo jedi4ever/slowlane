@@ -83,6 +83,37 @@ module Slowlane
         raise Error
       end
 
+      def put(uri, parameters = [], referer = nil, headers = {})
+        uri = ::File.join("https://#{self.host}", uri) unless /^https?/ === uri
+
+        #puts "Requesting: #{uri}"
+
+        unless (self.developer_token.nil?)
+          headers['X-CRASHLYTICS-DEVELOPER-TOKEN'] = self.developer_token
+        end
+
+        unless (self.access_token.nil?)
+          headers['X-CRASHLYTICS-ACCESS-TOKEN'] = self.access_token
+        end
+
+        unless (self.csrf_token.nil?)
+          headers['X-CSRF-Token'] = self.csrf_token
+        end
+
+        headers['X-Requested-With'] = 'XMLHttpRequest'
+        headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
+
+        3.times do
+
+          agent.put(uri, parameters, headers)
+
+          return agent.page
+        end
+
+        #raise NetworkError
+        raise Error
+      end
+
       #
       # Handles login and CSRF tokens
       #
@@ -136,6 +167,21 @@ module Slowlane
         members = JSON.parse(page.body)
 
         return members
+      end
+
+      def find_group_by_name(name)
+        testers = list_testers()
+        testers.each do |tester|
+          groups=tester['groups']
+          groups.each do |group|
+            #puts group['name']
+            if group['name'] == name
+              return group
+            end
+          end
+        end
+        return nil
+
       end
 
       def find_apps_by_bundle_id(bundle_id)
@@ -200,9 +246,8 @@ module Slowlane
       def tester_invite(app_id,group_id,email)
         bootstrap
 
-        page = post("/api/v2/organizations/#{self.team_id}/apps/#{app_id}/beta_distribution/groups/#{group_id}/testers/invite", {
-          "emails[]" => email 
-        })
+        input = URI.encode_www_form( "emails[]" => email)
+        page = put("/api/v2/organizations/#{self.team_id}/apps/#{app_id}/beta_distribution/groups/#{group_id}/testers/invite", input)
         data = JSON.parse(page.body)
         require 'pp'
         pp data

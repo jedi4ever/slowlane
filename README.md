@@ -83,6 +83,8 @@ results in binaries:
 - `slowlane-fabric tester list`
 - `slowlane-fabric device list`
 - `slowlane-fabric tester devices <email>`
+- `slowlane-fabric tester resend_invitation <email> <bundle_id>`
+- `slowlane-fabric tester invite <email> <bundle_id> <group_id>`
 - `slowlane-fabric organization list`
 - `slowlane-fabric member list`
 
