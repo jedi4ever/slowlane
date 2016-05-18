@@ -32,7 +32,8 @@ results in binaries:
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ## Changes
-- 1.2.3: (fabric) invite and resend_invitation tester
+- 1.2.4: (fabric) invite tester
+- 1.2.3: (fabric) resend_invitation tester
 - 1.2.2: (portal) add_device to provisioning profile
 - 1.2.1: (fabric) list all devices
 - 1.2.0: (fabric) list testers, list devices of tester, list members
@@ -84,7 +85,7 @@ results in binaries:
 - `slowlane-fabric device list`
 - `slowlane-fabric tester devices <email>`
 - `slowlane-fabric tester resend_invitation <email> <bundle_id>`
-- `slowlane-fabric tester invite <email> <bundle_id> <group_id>`
+- `slowlane-fabric tester invite <email> <bundle_id> <group_name>`
 - `slowlane-fabric organization list`
 - `slowlane-fabric member list`
 
