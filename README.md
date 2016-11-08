@@ -32,6 +32,7 @@ results in binaries:
 - `slowlane-ipa` (NOTE: this might change to a more generic `slowlane-ios` command)
 
 ## Changes
+- 1.2.5: (portal) fix download of adhoc & store profiles, create profiles
 - 1.2.4: (fabric) invite tester
 - 1.2.3: (fabric) resend_invitation tester
 - 1.2.2: (portal) add_device to provisioning profile
@@ -67,7 +68,8 @@ results in binaries:
 - `slowlane-portal profile list`
 - `slowlane-portal profile decode <provisioningfile>`
 - `slowlane-portal profile add_device <bundle_id> <udid>`
-- `slowlane-portal profile download`
+- `slowlane-portal profile download --distribution-type=<adhoc|store|limited>`
+- `slowlane-portal profile create <bundle_id>
 - `slowlane-portal psn list`
 - `slowlane-portal team list`
 
