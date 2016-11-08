@@ -69,7 +69,7 @@ module Slowlane
 
         profiles = Spaceship.provisioning_profile.find_by_bundle_id(bundle_id)
         distribution_profiles = profiles.select do |profile|
-          profile.type == "iOS Distribution" and profile.distribution_method == "adhoc"
+          profile.type == "iOS Distribution" and profile.is_adhoc?
         end
 
         if distribution_profiles.size() == 0
@@ -92,7 +92,7 @@ module Slowlane
 
       #option :platform,:default => 'ios', :banner => '<adhoc,limited,store>'
       desc "download", "download provisioning profile <bundle_id>"
-      option :distribution_method,:required => true , :banner => '<adhoc,limited,store>'
+      option :distribution_type,:required => true , :banner => '<adhoc,limited,store>'
       def download(bundle_id)
 
         c=Utils.credentials(options)
@@ -102,8 +102,17 @@ module Slowlane
         Spaceship::Portal.client.team_id=t
 
         profiles = Spaceship.provisioning_profile.find_by_bundle_id(bundle_id)
+
         distribution_profiles = profiles.select do |profile|
-          profile.distribution_method == options[:distribution_method]
+          if profile.distribution_method == "store"
+            if options[:distribution_type] == "adhoc"
+              profile.is_adhoc?
+            else
+              !profile.is_adhoc?
+            end
+          else
+            return false
+          end
         end
 
         if distribution_profiles.size() == 0
@@ -121,6 +130,27 @@ module Slowlane
         filename = "#{profile.uuid}.mobileprovision"
         puts "writing provisioning profile #{profile.name}(#{bundle_id}) to #{filename}"
         File.write("#{profile.uuid}.mobileprovision", profile.download)
+
+      end
+
+      desc "create", "Create a new profile <bundle_id>"
+      def create(bundle_id)
+
+        c=Utils.credentials(options)
+        Spaceship::Portal.login(c.username,c.password)
+
+        t=Utils.team(options)
+        Spaceship::Portal.client.team_id=t
+
+        cert = Spaceship.certificate.production.all.first
+        #require 'pp'
+        #pp cert
+
+        profile = Spaceship.provisioning_profile.AdHoc.create!(bundle_id: bundle_id, certificate: cert)
+        # Print the name and download the new profile
+        puts "Created Profile " + profile.name
+        profile.download
+
 
       end
 
